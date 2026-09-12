@@ -1,1 +1,3 @@
-# visual-programming-labs-Korol
+# Visual Programming Labs
+
+Репозиторий для лабораторных работ по курсу "Технологии визуального программирования".
