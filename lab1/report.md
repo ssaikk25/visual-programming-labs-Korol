@@ -39,6 +39,7 @@
 
 ![BPMN-диаграмма процесса](diagrams/process-bpmn.png)
 
+- **Изображение (PNG):** [`diagrams/process-bpmn.png`](diagrams/process-bpmn.png)
 - **Исходный файл:** [`diagrams/process.bpmn`](diagrams/process.bpmn) (XML, нотация BPMN 2.0)
 - **Элементы:** стартовое событие, **9 задач**, **5 шлюзов** (3 исключающих XOR + 2 параллельных AND), 3 конечных события
 - **Ветвления (XOR):** «Блюдо доступно?», «Клиент согласен?», «Оплата прошла?»
@@ -48,6 +49,7 @@
 
 ![UML Activity Diagram](diagrams/activity-uml.png)
 
+- **Изображение (PNG):** [`diagrams/activity-uml.png`](diagrams/activity-uml.png)
 - **Исходный файл:** [`diagrams/activity.drawio`](diagrams/activity.drawio)
 - **Детализирует шаг:** «Проверка наличия блюд и подтверждение заказа»
 - **Элементы:** начальный узел, **6 действий**, **2 решения** (ромбы), конечные узлы
