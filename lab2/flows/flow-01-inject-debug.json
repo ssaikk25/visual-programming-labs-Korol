@@ -1,0 +1,52 @@
+[
+  {
+    "id": "lab2-tab-01",
+    "type": "tab",
+    "label": "Lab2 Korol",
+    "disabled": false,
+    "info": "Лаба 2 — Часть 1 / 2.1 inject -> debug"
+  },
+  {
+    "id": "lab2-inject-01",
+    "type": "inject",
+    "z": "lab2-tab-01",
+    "name": "каждые 5 сек (Korol)",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "5",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "lab2/Korol/basic",
+    "payload": "Korol ИИ-241",
+    "payloadType": "str",
+    "x": 160,
+    "y": 120,
+    "wires": [
+      [
+        "lab2-debug-01"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-debug-01",
+    "type": "debug",
+    "z": "lab2-tab-01",
+    "name": "complete msg",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "targetType": "full",
+    "x": 460,
+    "y": 120,
+    "wires": []
+  }
+]
