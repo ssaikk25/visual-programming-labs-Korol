@@ -1,0 +1,75 @@
+[
+  {
+    "id": "lab2-tab-05",
+    "type": "tab",
+    "label": "Lab2 2.5 Template — Korol ИИ-241",
+    "disabled": false,
+    "info": "Лаба 2, п.2.5 — inject -> template -> debug"
+  },
+  {
+    "id": "lab2-f05-inject",
+    "type": "inject",
+    "z": "lab2-tab-05",
+    "name": "объект с 3 полями (Korol ИИ-241)",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1,
+    "topic": "lab2/Korol-ИИ-241/template",
+    "payload": "{\"student\":\"Korol\",\"group\":\"ИИ-241\",\"score\":241}",
+    "payloadType": "json",
+    "x": 140,
+    "y": 120,
+    "wires": [
+      [
+        "lab2-f05-template"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f05-template",
+    "type": "template",
+    "z": "lab2-tab-05",
+    "name": "Mustache -> JSON (Korol ИИ-241)",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "json",
+    "syntax": "mustache",
+    "template": "{\n  \"student\": \"{{payload.student}}\",\n  \"group\": \"{{payload.group}}\",\n  \"score\": {{payload.score}},\n  \"flow\": \"lab2/2.5-template\",\n  \"generated_by\": \"Korol ИИ-241\"\n}",
+    "output": "json",
+    "action": "",
+    "property": "",
+    "x": 440,
+    "y": 120,
+    "wires": [
+      [
+        "lab2-f05-debug"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f05-debug",
+    "type": "debug",
+    "z": "lab2-tab-05",
+    "name": "результат шаблона",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 740,
+    "y": 120,
+    "wires": []
+  }
+]

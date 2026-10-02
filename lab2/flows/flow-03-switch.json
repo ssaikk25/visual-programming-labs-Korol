@@ -1,0 +1,120 @@
+[
+  {
+    "id": "lab2-tab-03",
+    "type": "tab",
+    "label": "Lab2 2.3 Switch — Korol ИИ-241",
+    "disabled": false,
+    "info": "Лаба 2, п.2.3 — inject -> function -> switch -> 2 debug"
+  },
+  {
+    "id": "lab2-f03-inject",
+    "type": "inject",
+    "z": "lab2-tab-03",
+    "name": "число 241 (Korol ИИ-241)",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1,
+    "topic": "lab2/Korol-ИИ-241/switch",
+    "payload": 241,
+    "payloadType": "num",
+    "x": 140,
+    "y": 120,
+    "wires": [
+      [
+        "lab2-f03-func"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f03-func",
+    "type": "function",
+    "z": "lab2-tab-03",
+    "name": "Function: статус (Korol ИИ-241)",
+    "func": "// Лаба 2, п.2.3 — Function перед switch. Автор: Korol, группа ИИ-241\nconst n = Number(msg.payload);\n\nlet status = \"\";                       // if/else\nif (n >= 100) {\n  status = \"active\";\n} else {\n  status = \"blocked\";\n}\n\nmsg.payload = {\n  number: n,\n  status: status,\n  author: \"Korol\",\n  group: \"ИИ-241\"\n};\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 400,
+    "y": 120,
+    "wires": [
+      [
+        "lab2-f03-switch"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f03-switch",
+    "type": "switch",
+    "z": "lab2-tab-03",
+    "name": "ветвление по payload.status",
+    "property": "payload.status",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "active",
+        "vt": "str"
+      },
+      {
+        "t": "else"
+      }
+    ],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 2,
+    "x": 660,
+    "y": 120,
+    "wires": [
+      [
+        "lab2-f03-debug1"
+      ],
+      [
+        "lab2-f03-debug2"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f03-debug1",
+    "type": "debug",
+    "z": "lab2-tab-03",
+    "name": "выход 1: active",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 940,
+    "y": 80,
+    "wires": []
+  },
+  {
+    "id": "lab2-f03-debug2",
+    "type": "debug",
+    "z": "lab2-tab-03",
+    "name": "выход 2: иначе",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 940,
+    "y": 160,
+    "wires": []
+  }
+]

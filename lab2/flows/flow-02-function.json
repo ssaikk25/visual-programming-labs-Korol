@@ -1,0 +1,73 @@
+[
+  {
+    "id": "lab2-tab-02",
+    "type": "tab",
+    "label": "Lab2 2.2 Function — Korol ИИ-241",
+    "disabled": false,
+    "info": "Лаба 2, п.2.2 — inject -> function -> debug"
+  },
+  {
+    "id": "lab2-f02-inject",
+    "type": "inject",
+    "z": "lab2-tab-02",
+    "name": "число 241 (Korol ИИ-241)",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1,
+    "topic": "lab2/Korol-ИИ-241/function",
+    "payload": 241,
+    "payloadType": "num",
+    "x": 140,
+    "y": 120,
+    "wires": [
+      [
+        "lab2-f02-func"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f02-func",
+    "type": "function",
+    "z": "lab2-tab-02",
+    "name": "Function: разбор числа (Korol ИИ-241)",
+    "func": "// Лаба 2, п.2.2 — Function node. Автор: Korol, группа ИИ-241\nconst raw = Number(msg.payload);              // inject передал число 241\n\nconst digits = String(raw).split(\"\");         // массив цифр\nlet sum = 0;                                  // let\nconst collected = [];                         // const\n\nfor (let i = 0; i < digits.length; i++) {     // цикл for\n  const d = Number(digits[i]);\n  collected.push(d);\n  sum += d;\n}\n\nconst meta = { author: \"Korol\", group: \"ИИ-241\" };   // объект\n\nlet parity = \"\";                              // let + if/else\nif (sum % 2 === 0) {\n  parity = \"чётная\";\n} else {\n  parity = \"нечётная\";\n}\n\nmsg.payload = {                               // возврат объекта с полем payload\n  input: raw,\n  digits: collected,\n  sum: sum,\n  sumParity: parity,\n  meta: meta\n};\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 420,
+    "y": 120,
+    "wires": [
+      [
+        "lab2-f02-debug"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f02-debug",
+    "type": "debug",
+    "z": "lab2-tab-02",
+    "name": "результат function",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 740,
+    "y": 120,
+    "wires": []
+  }
+]

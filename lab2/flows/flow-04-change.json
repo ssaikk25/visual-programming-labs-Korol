@@ -1,0 +1,95 @@
+[
+  {
+    "id": "lab2-tab-04",
+    "type": "tab",
+    "label": "Lab2 2.4 Change — Korol ИИ-241",
+    "disabled": false,
+    "info": "Лаба 2, п.2.4 — inject -> change -> debug"
+  },
+  {
+    "id": "lab2-f04-inject",
+    "type": "inject",
+    "z": "lab2-tab-04",
+    "name": "исходное значение (Korol ИИ-241)",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 1,
+    "topic": "lab2/Korol-ИИ-241/change",
+    "payload": "Korol ИИ-241: исходное значение",
+    "payloadType": "str",
+    "x": 140,
+    "y": 120,
+    "wires": [
+      [
+        "lab2-f04-change"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f04-change",
+    "type": "change",
+    "z": "lab2-tab-04",
+    "name": "Set topic + timestamp + payload",
+    "rules": [
+      {
+        "t": "set",
+        "p": "topic",
+        "pt": "msg",
+        "to": "lab2/Korol-ИИ-241/change",
+        "tot": "str"
+      },
+      {
+        "t": "set",
+        "p": "timestamp",
+        "pt": "msg",
+        "to": "",
+        "tot": "date"
+      },
+      {
+        "t": "set",
+        "p": "payload",
+        "pt": "msg",
+        "to": "Korol ИИ-241: обновлено change-нодой",
+        "tot": "str"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 440,
+    "y": 120,
+    "wires": [
+      [
+        "lab2-f04-debug"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f04-debug",
+    "type": "debug",
+    "z": "lab2-tab-04",
+    "name": "complete msg object",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 760,
+    "y": 120,
+    "wires": []
+  }
+]
