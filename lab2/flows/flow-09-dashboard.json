@@ -1,0 +1,172 @@
+[
+  {
+    "id": "lab2-tab-09",
+    "type": "tab",
+    "label": "Lab2 2.9 Dashboard — Korol ИИ-241",
+    "disabled": false,
+    "info": "Лаба 2, п.2.9 — gauge + chart, имитация датчика"
+  },
+  {
+    "id": "lab2-ui-base",
+    "type": "ui_base",
+    "theme": {
+      "name": "theme-light"
+    },
+    "site": {
+      "name": "Lab2 — Korol ИИ-241",
+      "hideToolbar": "false",
+      "allowSwipe": "false",
+      "lockMenu": "false",
+      "allowTempTheme": "true",
+      "dateFormat": "DD.MM.YYYY",
+      "sizes": {
+        "sx": 48,
+        "sy": 48,
+        "gx": 6,
+        "gy": 6,
+        "cx": 6,
+        "cy": 6,
+        "px": 0,
+        "py": 0
+      }
+    }
+  },
+  {
+    "id": "lab2-ui-tab",
+    "type": "ui_tab",
+    "name": "Lab2 2.9 — Korol ИИ-241",
+    "icon": "dashboard",
+    "order": 0,
+    "disabled": false,
+    "hidden": false
+  },
+  {
+    "id": "lab2-ui-group",
+    "type": "ui_group",
+    "name": "Датчик температуры (Korol ИИ-241)",
+    "tab": "lab2-ui-tab",
+    "order": 1,
+    "disp": true,
+    "width": 6,
+    "collapse": false,
+    "disabled": false,
+    "hidden": false,
+    "className": ""
+  },
+  {
+    "id": "lab2-f09-inject",
+    "type": "inject",
+    "z": "lab2-tab-09",
+    "name": "имитация датчика: каждые 2 сек",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "2",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 1,
+    "topic": "lab2/Korol-ИИ-241/sensor",
+    "payload": "",
+    "payloadType": "date",
+    "x": 180,
+    "y": 140,
+    "wires": [
+      [
+        "lab2-f09-func"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f09-func",
+    "type": "function",
+    "z": "lab2-tab-09",
+    "name": "случайная температура (Korol ИИ-241)",
+    "func": "// Лаба 2, п.2.9 — имитация датчика температуры. Korol, ИИ-241\nconst value = Math.round((20 + Math.random() * 15) * 10) / 10; // 20.0 .. 35.0\nmsg.topic = \"Температура, C (Korol ИИ-241)\";   // имя серии для chart\nmsg.payload = value;                            // число для gauge и chart\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 480,
+    "y": 140,
+    "wires": [
+      [
+        "lab2-f09-gauge",
+        "lab2-f09-chart"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f09-gauge",
+    "type": "ui_gauge",
+    "z": "lab2-tab-09",
+    "name": "Gauge: температура",
+    "group": "lab2-ui-group",
+    "order": 1,
+    "width": 6,
+    "height": 4,
+    "gtype": "gage",
+    "title": "Температура (Korol ИИ-241)",
+    "label": "C",
+    "format": "{{value}}",
+    "min": 0,
+    "max": 40,
+    "colors": [
+      "#2b83ba",
+      "#abdda4",
+      "#d7191c"
+    ],
+    "seg1": "",
+    "seg2": "",
+    "diff": false,
+    "className": "",
+    "x": 800,
+    "y": 100,
+    "wires": []
+  },
+  {
+    "id": "lab2-f09-chart",
+    "type": "ui_chart",
+    "z": "lab2-tab-09",
+    "name": "Chart: история",
+    "group": "lab2-ui-group",
+    "order": 2,
+    "width": 6,
+    "height": 4,
+    "label": "История температуры (Korol ИИ-241)",
+    "chartType": "line",
+    "legend": "false",
+    "xformat": "HH:mm:ss",
+    "interpolate": "linear",
+    "nodata": "нет данных",
+    "dot": false,
+    "ymin": "",
+    "ymax": "",
+    "removeOlder": 1,
+    "removeOlderPoints": "",
+    "removeOlderUnit": "3600",
+    "cutout": 0,
+    "useOneColor": false,
+    "useUTC": false,
+    "colors": [
+      "#1F77B4",
+      "#AEC7E8",
+      "#FF7F0E",
+      "#2CA02C"
+    ],
+    "outputs": 1,
+    "useDifferentColor": false,
+    "className": "",
+    "x": 800,
+    "y": 180,
+    "wires": [
+      []
+    ]
+  }
+]

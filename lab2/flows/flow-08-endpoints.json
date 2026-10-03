@@ -1,0 +1,160 @@
+[
+  {
+    "id": "lab2-tab-08",
+    "type": "tab",
+    "label": "Lab2 2.8 GET endpoints — Korol ИИ-241",
+    "disabled": false,
+    "info": "Лаба 2, п.2.8 — три GET-эндпоинта: /api/text, /api/info, /api/items"
+  },
+  {
+    "id": "lab2-f08-in-text",
+    "type": "http in",
+    "z": "lab2-tab-08",
+    "name": "GET /api/text",
+    "url": "/api/text",
+    "method": "get",
+    "upload": false,
+    "skipBodyParsing": false,
+    "x": 160,
+    "y": 80,
+    "wires": [
+      [
+        "lab2-f08-change-text"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f08-change-text",
+    "type": "change",
+    "z": "lab2-tab-08",
+    "name": "текстовый ответ",
+    "rules": [
+      {
+        "t": "set",
+        "p": "payload",
+        "pt": "msg",
+        "to": "Привет из Node-RED! Студент: Korol, группа: ИИ-241",
+        "tot": "str"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 440,
+    "y": 80,
+    "wires": [
+      [
+        "lab2-f08-resp-text"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f08-resp-text",
+    "type": "http response",
+    "z": "lab2-tab-08",
+    "name": "200 text/plain",
+    "statusCode": "200",
+    "headers": {
+      "content-type": "text/plain; charset=utf-8"
+    },
+    "x": 720,
+    "y": 80,
+    "wires": []
+  },
+  {
+    "id": "lab2-f08-in-info",
+    "type": "http in",
+    "z": "lab2-tab-08",
+    "name": "GET /api/info",
+    "url": "/api/info",
+    "method": "get",
+    "upload": false,
+    "skipBodyParsing": false,
+    "x": 160,
+    "y": 180,
+    "wires": [
+      [
+        "lab2-f08-func-info"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f08-func-info",
+    "type": "function",
+    "z": "lab2-tab-08",
+    "name": "JSON из двух полей",
+    "func": "// Лаба 2, п.2.8 — GET /api/info. Автор: Korol, группа ИИ-241\nmsg.payload = {\n  student: \"Korol\",\n  group: \"ИИ-241\"\n};\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 440,
+    "y": 180,
+    "wires": [
+      [
+        "lab2-f08-resp-info"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f08-resp-info",
+    "type": "http response",
+    "z": "lab2-tab-08",
+    "name": "200 application/json",
+    "statusCode": "200",
+    "headers": {},
+    "x": 720,
+    "y": 180,
+    "wires": []
+  },
+  {
+    "id": "lab2-f08-in-items",
+    "type": "http in",
+    "z": "lab2-tab-08",
+    "name": "GET /api/items",
+    "url": "/api/items",
+    "method": "get",
+    "upload": false,
+    "skipBodyParsing": false,
+    "x": 160,
+    "y": 280,
+    "wires": [
+      [
+        "lab2-f08-func-items"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f08-func-items",
+    "type": "function",
+    "z": "lab2-tab-08",
+    "name": "query params + 400/404",
+    "func": "// Лаба 2, п.2.8 — GET /api/items. Автор: Korol, группа ИИ-241\nconst catalog = [\n  { id: 1, name: \"Ноутбук\", price: 55000 },\n  { id: 2, name: \"Мышка\", price: 1500 },\n  { id: 3, name: \"Клавиатура\", price: 4500 }\n];\n\nconst q = msg.req.query || {};          // query params: ?id=1\nmsg.topic = \"lab2/Korol-ИИ-241/items\";\n\nif (q.id === undefined || q.id === \"\") {\n  msg.statusCode = 400;                 // не передан обязательный параметр\n  msg.payload = {\n    error: \"bad_request\",\n    message: \"параметр ?id= обязателен\",\n    example: \"/api/items?id=1\",\n    student: \"Korol\", group: \"ИИ-241\"\n  };\n  return msg;\n}\n\nconst id = Number(q.id);\nif (!Number.isInteger(id)) {\n  msg.statusCode = 400;                 // id не число\n  msg.payload = {\n    error: \"bad_request\",\n    message: \"id должен быть целым числом, получено: \" + q.id,\n    student: \"Korol\", group: \"ИИ-241\"\n  };\n  return msg;\n}\n\nconst item = catalog.find(function (it) { return it.id === id; });\nif (!item) {\n  msg.statusCode = 404;                 // не найдено\n  msg.payload = {\n    error: \"not_found\",\n    message: \"элемент с id=\" + id + \" не найден\",\n    student: \"Korol\", group: \"ИИ-241\"\n  };\n  return msg;\n}\n\nmsg.statusCode = 200;\nmsg.payload = { success: true, item: item, student: \"Korol\", group: \"ИИ-241\" };\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 450,
+    "y": 280,
+    "wires": [
+      [
+        "lab2-f08-resp-items"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f08-resp-items",
+    "type": "http response",
+    "z": "lab2-tab-08",
+    "name": "статус из msg.statusCode",
+    "statusCode": "",
+    "headers": {},
+    "x": 760,
+    "y": 280,
+    "wires": []
+  }
+]

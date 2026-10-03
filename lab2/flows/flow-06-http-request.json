@@ -1,0 +1,76 @@
+[
+  {
+    "id": "lab2-tab-06",
+    "type": "tab",
+    "label": "Lab2 2.6 HTTP Request — Korol ИИ-241",
+    "disabled": false,
+    "info": "Лаба 2, п.2.6 — inject -> http request -> debug"
+  },
+  {
+    "id": "lab2-f06-inject",
+    "type": "inject",
+    "z": "lab2-tab-06",
+    "name": "запрос (Korol ИИ-241)",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1,
+    "topic": "lab2/Korol-ИИ-241/http",
+    "payload": "Korol ИИ-241: GET random joke",
+    "payloadType": "str",
+    "x": 160,
+    "y": 120,
+    "wires": [
+      [
+        "lab2-f06-http"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f06-http",
+    "type": "http request",
+    "z": "lab2-tab-06",
+    "name": "GET api.chucknorris.io",
+    "method": "GET",
+    "ret": "obj",
+    "paytoqs": false,
+    "url": "https://api.chucknorris.io/jokes/random",
+    "persist": false,
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 480,
+    "y": 120,
+    "wires": [
+      [
+        "lab2-f06-debug"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f06-debug",
+    "type": "debug",
+    "z": "lab2-tab-06",
+    "name": "ответ API (complete msg)",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 820,
+    "y": 120,
+    "wires": []
+  }
+]

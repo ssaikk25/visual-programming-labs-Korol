@@ -1,0 +1,145 @@
+[
+  {
+    "id": "lab2-tab-07",
+    "type": "tab",
+    "label": "Lab2 2.7 MQTT — Korol ИИ-241",
+    "disabled": false,
+    "info": "Лаба 2, п.2.7 — публикация и приём сообщений через публичный брокер"
+  },
+  {
+    "id": "lab2-broker-hivemq",
+    "type": "mqtt-broker",
+    "name": "HiveMQ public (Korol ИИ-241)",
+    "broker": "broker.hivemq.com",
+    "port": 1883,
+    "clientid": "",
+    "autoConnect": true,
+    "usetls": false,
+    "verifyservercert": false,
+    "compatmode": false,
+    "protocolVersion": 4,
+    "keepalive": 60,
+    "cleansession": true,
+    "autoUnsubscribe": true,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthRetain": "false",
+    "birthPayload": "",
+    "birthMsg": {},
+    "closeTopic": "",
+    "closeQos": "0",
+    "closeRetain": "false",
+    "closePayload": "",
+    "closeMsg": {},
+    "willTopic": "",
+    "willQos": "0",
+    "willRetain": "false",
+    "willPayload": "",
+    "willMsg": {},
+    "userProps": "",
+    "sessionExpiry": 0
+  },
+  {
+    "id": "lab2-f07-inject-pub",
+    "type": "inject",
+    "z": "lab2-tab-07",
+    "name": "каждые 5 сек",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "5",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 1,
+    "topic": "student/Korol-ИИ-241/lab2/sensor",
+    "payload": "",
+    "payloadType": "date",
+    "x": 160,
+    "y": 100,
+    "wires": [
+      [
+        "lab2-f07-func"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f07-func",
+    "type": "function",
+    "z": "lab2-tab-07",
+    "name": "случайное значение (Korol ИИ-241)",
+    "func": "// Лаба 2, п.2.7 — генерация случайного значения. Korol, ИИ-241\nconst value = Math.round(Math.random() * 100) / 10; // 0.0 .. 10.0\nmsg.payload = {\n  value: value,\n  unit: \"C\",\n  student: \"Korol\",\n  group: \"ИИ-241\",\n  ts: Date.now()\n};\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 440,
+    "y": 100,
+    "wires": [
+      [
+        "lab2-f07-mqtt-out"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f07-mqtt-out",
+    "type": "mqtt out",
+    "z": "lab2-tab-07",
+    "name": "publish",
+    "topic": "student/Korol-ИИ-241/lab2/sensor",
+    "qos": "0",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "lab2-broker-hivemq",
+    "x": 740,
+    "y": 100,
+    "wires": []
+  },
+  {
+    "id": "lab2-f07-mqtt-in",
+    "type": "mqtt in",
+    "z": "lab2-tab-07",
+    "name": "subscribe",
+    "topic": "student/Korol-ИИ-241/lab2/sensor",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "lab2-broker-hivemq",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 160,
+    "y": 220,
+    "wires": [
+      [
+        "lab2-f07-debug"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f07-debug",
+    "type": "debug",
+    "z": "lab2-tab-07",
+    "name": "пришло из MQTT (complete msg)",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 440,
+    "y": 220,
+    "wires": []
+  }
+]
