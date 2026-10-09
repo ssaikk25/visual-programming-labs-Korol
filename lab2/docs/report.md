@@ -104,9 +104,9 @@ http://localhost:1880/ui.
   -v "D:\visual-programming-labs-Korol\lab2\node-red-data:/data" nodered/node-red:latest`
 - **Volume:** `lab2/node-red-data` → `/data` в контейнере (настройки и ноды переживают перезапуск)
 - **Порт:** 1880
-- **Node-RED:** _<!-- ВПИСАТЬ: вывод меню ☰ → About -->_
-- **Node.js:** _<!-- ВПИСАТЬ: строка "Node.js version" из логов контейнера -->_
-- **Версия Docker-клиента:** _<!-- ВПИСАТЬ: docker --version -->_
+- **Node-RED:** v5.0.7 (образ `nodered/node-red:latest`)
+- **Node.js:** v24.20.0 (внутри контейнера)
+- **Версия Docker-клиента:** 29.8.0
 - **Способ проверки:** `docker ps` показывает контейнер `node-red`;
   версии — из `docker logs node-red` и меню ☰ → About
 
@@ -117,7 +117,7 @@ docker logs node-red | Select-String "Node.js version|Node-RED version"
 docker exec node-red node -v
 ```
 
-**Установленная дополнительная нода:** `node-red-dashboard` (через ☰ → Manage palette).
+**Установленные дополнительные ноды:** `node-red-dashboard` 3.6.6 и `node-red-contrib-telegrambot` 19.0.3 (через ☰ → Manage palette).
 
 ---
 
