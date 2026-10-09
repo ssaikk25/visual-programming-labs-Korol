@@ -1,0 +1,213 @@
+[
+  {
+    "id": "lab2-tab-10",
+    "type": "tab",
+    "label": "Lab2 2.10 Telegram — Korol ИИ-241",
+    "disabled": false,
+    "info": "Лаба 2, п.2.10 — Telegram-бот tvl_lab2_korol_bot: /start, /info, echo"
+  },
+  {
+    "id": "lab2-tg-bot",
+    "type": "telegram bot",
+    "botname": "tvl_lab2_korol_bot",
+    "usernames": "",
+    "chatids": "",
+    "baseapiurl": "",
+    "testenvironment": false,
+    "updatemode": "polling",
+    "addressfamily": "",
+    "pollinterval": 300,
+    "usesocks": false,
+    "sockshost": "",
+    "socksprotocol": "sock5",
+    "socksport": 6667,
+    "socksusername": "anonymous",
+    "sockspassword": "",
+    "bothost": "",
+    "botpath": "",
+    "localbothost": "0.0.0.0",
+    "localbotport": 8443,
+    "publicbotport": 8443,
+    "privatekey": "",
+    "certificate": "",
+    "useselfsignedcertificate": false,
+    "sslterminated": false,
+    "verboselogging": false
+  },
+  {
+    "id": "lab2-f10-cmd-start",
+    "type": "telegram command",
+    "z": "lab2-tab-10",
+    "name": "/start (Korol ИИ-241)",
+    "command": "/start",
+    "description": "Приветствие — Korol ИИ-241",
+    "registercommand": false,
+    "language": "",
+    "scope": "default",
+    "bot": "lab2-tg-bot",
+    "strict": false,
+    "hasresponse": false,
+    "useregex": false,
+    "removeregexcommand": false,
+    "outputs": 1,
+    "x": 150,
+    "y": 80,
+    "wires": [
+      [
+        "lab2-f10-fn-start"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f10-fn-start",
+    "type": "function",
+    "z": "lab2-tab-10",
+    "name": "ответ на /start",
+    "func": "// Лаба 2, п.2.10 — ответ на /start. Автор: Korol, группа ИИ-241\nmsg.payload.type = \"message\";\nmsg.payload.content = \"Привет! Я бот tvl_lab2_korol_bot.\\n\" +\n  \"Студент: Korol, группа: ИИ-241.\\n\" +\n  \"Команды: /start, /info.\\n\" +\n  \"Любое другое сообщение я повторю (echo).\";\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 440,
+    "y": 80,
+    "wires": [
+      [
+        "lab2-f10-sender"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f10-cmd-info",
+    "type": "telegram command",
+    "z": "lab2-tab-10",
+    "name": "/info (Korol ИИ-241)",
+    "command": "/info",
+    "description": "Информация о работе — Korol ИИ-241",
+    "registercommand": false,
+    "language": "",
+    "scope": "default",
+    "bot": "lab2-tg-bot",
+    "strict": false,
+    "hasresponse": false,
+    "useregex": false,
+    "removeregexcommand": false,
+    "outputs": 1,
+    "x": 150,
+    "y": 160,
+    "wires": [
+      [
+        "lab2-f10-fn-info"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f10-fn-info",
+    "type": "function",
+    "z": "lab2-tab-10",
+    "name": "ответ на /info",
+    "func": "// Лаба 2, п.2.10 — ответ на /info. Автор: Korol, группа ИИ-241\nmsg.payload.type = \"message\";\nmsg.payload.content = \"Лабораторная работа №2, Node-RED\\n\" +\n  \"Автор: Korol, группа ИИ-241\\n\" +\n  \"Flow: flow-10-telegram.json\";\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 440,
+    "y": 160,
+    "wires": [
+      [
+        "lab2-f10-sender"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f10-receiver",
+    "type": "telegram receiver",
+    "z": "lab2-tab-10",
+    "name": "все сообщения (echo)",
+    "bot": "lab2-tg-bot",
+    "saveDataDir": "",
+    "filterCommands": true,
+    "hasinput": false,
+    "inputs": 0,
+    "handleallupdates": false,
+    "handleprocessupdates": false,
+    "x": 160,
+    "y": 260,
+    "wires": [
+      [
+        "lab2-f10-fn-echo"
+      ],
+      [
+        "lab2-f10-debug-unauth"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f10-fn-echo",
+    "type": "function",
+    "z": "lab2-tab-10",
+    "name": "echo (Korol ИИ-241)",
+    "func": "// Лаба 2, п.2.10 — echo: возвращаю то же сообщение. Korol, ИИ-241\nmsg.payload.type = \"message\";\nmsg.payload.content = \"Echo: \" + msg.payload.content;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 460,
+    "y": 240,
+    "wires": [
+      [
+        "lab2-f10-sender"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f10-debug-unauth",
+    "type": "debug",
+    "z": "lab2-tab-10",
+    "name": "неавторизованный вызов",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 500,
+    "y": 300,
+    "wires": []
+  },
+  {
+    "id": "lab2-f10-sender",
+    "type": "telegram sender",
+    "z": "lab2-tab-10",
+    "name": "отправить ответ (Korol ИИ-241)",
+    "bot": "lab2-tg-bot",
+    "haserroroutput": false,
+    "outputs": 1,
+    "x": 790,
+    "y": 200,
+    "wires": [
+      [
+        "lab2-f10-debug-sent"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f10-debug-sent",
+    "type": "debug",
+    "z": "lab2-tab-10",
+    "name": "отправлено (complete msg)",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1050,
+    "y": 200,
+    "wires": []
+  }
+]

@@ -1,0 +1,157 @@
+[
+  {
+    "id": "lab2-tab-11",
+    "type": "tab",
+    "label": "Lab2 2.11 Files — Korol ИИ-241",
+    "disabled": false,
+    "info": "Лаба 2, п.2.11 — запись и чтение файла (JSON, JSONL)"
+  },
+  {
+    "id": "lab2-f11-inject-write",
+    "type": "inject",
+    "z": "lab2-tab-11",
+    "name": "записать (каждые 10 сек)",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "10",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 2,
+    "topic": "lab2/Korol-ИИ-241/file-write",
+    "payload": "",
+    "payloadType": "date",
+    "x": 170,
+    "y": 100,
+    "wires": [
+      [
+        "lab2-f11-fn-write"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f11-fn-write",
+    "type": "function",
+    "z": "lab2-tab-11",
+    "name": "строка лога (Korol ИИ-241)",
+    "func": "// Лаба 2, п.2.11 — готовлю запись. Автор: Korol, группа ИИ-241\n// file out сам делает JSON.stringify для объекта\nmsg.payload = {\n  student: \"Korol\",\n  group: \"ИИ-241\",\n  ts: new Date().toISOString(),\n  value: Math.round(Math.random() * 100)\n};\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 440,
+    "y": 100,
+    "wires": [
+      [
+        "lab2-f11-file-out"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f11-file-out",
+    "type": "file",
+    "z": "lab2-tab-11",
+    "name": "file out: /data/korol-lab2-log.json",
+    "filename": "/data/korol-lab2-log.json",
+    "filenameType": "str",
+    "appendNewline": true,
+    "createDir": false,
+    "overwriteFile": "false",
+    "encoding": "none",
+    "x": 760,
+    "y": 100,
+    "wires": [
+      [
+        "lab2-f11-debug-w"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f11-debug-w",
+    "type": "debug",
+    "z": "lab2-tab-11",
+    "name": "записано (msg)",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1010,
+    "y": 100,
+    "wires": []
+  },
+  {
+    "id": "lab2-f11-inject-read",
+    "type": "inject",
+    "z": "lab2-tab-11",
+    "name": "прочитать (по клику)",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 1,
+    "topic": "lab2/Korol-ИИ-241/file-read",
+    "payload": "",
+    "payloadType": "date",
+    "x": 160,
+    "y": 220,
+    "wires": [
+      [
+        "lab2-f11-file-in"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f11-file-in",
+    "type": "file in",
+    "z": "lab2-tab-11",
+    "name": "file in: чтение лога",
+    "filename": "/data/korol-lab2-log.json",
+    "filenameType": "str",
+    "format": "utf8",
+    "chunk": false,
+    "sendError": false,
+    "encoding": "none",
+    "allProps": false,
+    "x": 440,
+    "y": 220,
+    "wires": [
+      [
+        "lab2-f11-debug-r"
+      ]
+    ]
+  },
+  {
+    "id": "lab2-f11-debug-r",
+    "type": "debug",
+    "z": "lab2-tab-11",
+    "name": "содержимое файла",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 690,
+    "y": 220,
+    "wires": []
+  }
+]
