@@ -1,0 +1,405 @@
+[
+  {
+    "id": "korol-sf-save-json",
+    "type": "subflow",
+    "name": "Сохранить JSON в файл (Korol ИИ-241)",
+    "info": "Ачивка 16 — переиспользуемый subflow записи JSON.\nПуть файла берётся из msg.filename (не хардкод).",
+    "category": "Лаба 2 — Korol ИИ-241",
+    "in": [
+      {
+        "x": 80,
+        "y": 40,
+        "wires": [
+          {
+            "id": "korol-sf-save-func"
+          }
+        ]
+      }
+    ],
+    "out": [
+      {
+        "x": 420,
+        "y": 40,
+        "wires": [
+          {
+            "id": "korol-sf-save-file",
+            "port": 0
+          }
+        ]
+      }
+    ],
+    "env": [],
+    "meta": {},
+    "color": "#DDAA99"
+  },
+  {
+    "id": "korol-sf-read-json",
+    "type": "subflow",
+    "name": "Прочитать JSON из файла (Korol ИИ-241)",
+    "info": "Ачивка 16 — переиспользуемый subflow чтения и парсинга JSON.\nПуть файла берётся из msg.filename.",
+    "category": "Лаба 2 — Korol ИИ-241",
+    "in": [
+      {
+        "x": 80,
+        "y": 40,
+        "wires": [
+          {
+            "id": "korol-sf-read-filein"
+          }
+        ]
+      }
+    ],
+    "out": [
+      {
+        "x": 420,
+        "y": 40,
+        "wires": [
+          {
+            "id": "korol-sf-read-func",
+            "port": 0
+          }
+        ]
+      }
+    ],
+    "env": [],
+    "meta": {},
+    "color": "#DDAA99"
+  },
+  {
+    "id": "korol-sf-save-func",
+    "type": "function",
+    "z": "korol-sf-save-json",
+    "name": "проверить msg.filename",
+    "func": "// Ачивка 16 — subflow «Сохранить JSON в файл». Korol, ИИ-241\n// Путь берётся из msg.filename (усложнение: не хардкод).\nif (!msg.filename) {\n  msg.filename = \"/data/korol-a16-default.json\";\n}\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 180,
+    "y": 40,
+    "wires": [
+      [
+        "korol-sf-save-file"
+      ]
+    ]
+  },
+  {
+    "id": "korol-sf-save-file",
+    "type": "file",
+    "z": "korol-sf-save-json",
+    "name": "file out (msg.filename)",
+    "filename": "filename",
+    "filenameType": "msg",
+    "appendNewline": true,
+    "createDir": true,
+    "overwriteFile": "true",
+    "encoding": "none",
+    "x": 320,
+    "y": 40,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "korol-sf-read-filein",
+    "type": "file in",
+    "z": "korol-sf-read-json",
+    "name": "file in (msg.filename)",
+    "filename": "filename",
+    "filenameType": "msg",
+    "format": "utf8",
+    "chunk": false,
+    "sendError": true,
+    "encoding": "none",
+    "allProps": false,
+    "x": 180,
+    "y": 40,
+    "wires": [
+      [
+        "korol-sf-read-func"
+      ]
+    ]
+  },
+  {
+    "id": "korol-sf-read-func",
+    "type": "function",
+    "z": "korol-sf-read-json",
+    "name": "парсинг JSON",
+    "func": "// Ачивка 16 — subflow «Прочитать JSON из файла». Korol, ИИ-241\ntry {\n  msg.payload = JSON.parse(msg.payload);\n} catch (e) {\n  node.warn(\"Не удалось распарсить JSON: \" + e.message);\n}\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 320,
+    "y": 40,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "korol-tab-a16-1",
+    "type": "tab",
+    "label": "Lab2 А16 Subflow use 1 — Korol ИИ-241",
+    "disabled": false,
+    "info": "Ачивка 16 — первое использование subflows: файл пользователей"
+  },
+  {
+    "id": "korol-a16-1-inj-w",
+    "type": "inject",
+    "z": "korol-tab-a16-1",
+    "name": "записать users (Korol ИИ-241)",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      },
+      {
+        "p": "filename",
+        "v": "/data/korol-a16-users.json",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1,
+    "topic": "lab2/Korol-ИИ-241/a16-users",
+    "payload": "{\"student\":\"Korol\",\"group\":\"ИИ-241\",\"kind\":\"users\",\"count\":42}",
+    "payloadType": "json",
+    "x": 140,
+    "y": 80,
+    "wires": [
+      [
+        "korol-a16-1-save"
+      ]
+    ]
+  },
+  {
+    "id": "korol-a16-1-save",
+    "type": "subflow:korol-sf-save-json",
+    "z": "korol-tab-a16-1",
+    "name": "сохранить JSON",
+    "env": [],
+    "x": 440,
+    "y": 80,
+    "wires": [
+      [
+        "korol-a16-1-dbg-w"
+      ]
+    ]
+  },
+  {
+    "id": "korol-a16-1-dbg-w",
+    "type": "debug",
+    "z": "korol-tab-a16-1",
+    "name": "записано (msg)",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 690,
+    "y": 80,
+    "wires": []
+  },
+  {
+    "id": "korol-a16-1-inj-r",
+    "type": "inject",
+    "z": "korol-tab-a16-1",
+    "name": "прочитать users (по клику)",
+    "props": [
+      {
+        "p": "topic",
+        "vt": "str"
+      },
+      {
+        "p": "filename",
+        "v": "/data/korol-a16-users.json",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 1,
+    "topic": "lab2/Korol-ИИ-241/a16-users-read",
+    "payload": "",
+    "payloadType": "date",
+    "x": 160,
+    "y": 200,
+    "wires": [
+      [
+        "korol-a16-1-read"
+      ]
+    ]
+  },
+  {
+    "id": "korol-a16-1-read",
+    "type": "subflow:korol-sf-read-json",
+    "z": "korol-tab-a16-1",
+    "name": "прочитать JSON",
+    "env": [],
+    "x": 440,
+    "y": 200,
+    "wires": [
+      [
+        "korol-a16-1-dbg-r"
+      ]
+    ]
+  },
+  {
+    "id": "korol-a16-1-dbg-r",
+    "type": "debug",
+    "z": "korol-tab-a16-1",
+    "name": "прочитанный объект",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 690,
+    "y": 200,
+    "wires": []
+  },
+  {
+    "id": "korol-tab-a16-2",
+    "type": "tab",
+    "label": "Lab2 А16 Subflow use 2 — Korol ИИ-241",
+    "disabled": false,
+    "info": "Ачивка 16 — второе использование тех же subflows: файл датчиков"
+  },
+  {
+    "id": "korol-a16-2-inj-w",
+    "type": "inject",
+    "z": "korol-tab-a16-2",
+    "name": "записать sensors (Korol ИИ-241)",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      },
+      {
+        "p": "filename",
+        "v": "/data/korol-a16-sensors.json",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1,
+    "topic": "lab2/Korol-ИИ-241/a16-sensors",
+    "payload": "{\"student\":\"Korol\",\"group\":\"ИИ-241\",\"kind\":\"sensors\",\"temp\":21.5}",
+    "payloadType": "json",
+    "x": 140,
+    "y": 80,
+    "wires": [
+      [
+        "korol-a16-2-save"
+      ]
+    ]
+  },
+  {
+    "id": "korol-a16-2-save",
+    "type": "subflow:korol-sf-save-json",
+    "z": "korol-tab-a16-2",
+    "name": "сохранить JSON",
+    "env": [],
+    "x": 440,
+    "y": 80,
+    "wires": [
+      [
+        "korol-a16-2-dbg-w"
+      ]
+    ]
+  },
+  {
+    "id": "korol-a16-2-dbg-w",
+    "type": "debug",
+    "z": "korol-tab-a16-2",
+    "name": "записано (msg)",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 690,
+    "y": 80,
+    "wires": []
+  },
+  {
+    "id": "korol-a16-2-inj-r",
+    "type": "inject",
+    "z": "korol-tab-a16-2",
+    "name": "прочитать sensors (по клику)",
+    "props": [
+      {
+        "p": "topic",
+        "vt": "str"
+      },
+      {
+        "p": "filename",
+        "v": "/data/korol-a16-sensors.json",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 1,
+    "topic": "lab2/Korol-ИИ-241/a16-sensors-read",
+    "payload": "",
+    "payloadType": "date",
+    "x": 160,
+    "y": 200,
+    "wires": [
+      [
+        "korol-a16-2-read"
+      ]
+    ]
+  },
+  {
+    "id": "korol-a16-2-read",
+    "type": "subflow:korol-sf-read-json",
+    "z": "korol-tab-a16-2",
+    "name": "прочитать JSON",
+    "env": [],
+    "x": 440,
+    "y": 200,
+    "wires": [
+      [
+        "korol-a16-2-dbg-r"
+      ]
+    ]
+  },
+  {
+    "id": "korol-a16-2-dbg-r",
+    "type": "debug",
+    "z": "korol-tab-a16-2",
+    "name": "прочитанный объект",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 690,
+    "y": 200,
+    "wires": []
+  }
+]
