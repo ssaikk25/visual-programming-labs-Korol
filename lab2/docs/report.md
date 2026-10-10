@@ -123,30 +123,71 @@ docker exec node-red node -v
 
 ## 5. Скриншоты
 
-Файлы в `screenshots/`:
+Все снимки лежат в `screenshots/`. Ниже — встроенные изображения по каждому пункту.
 
-| Файл | Что на снимке |
-|---|---|
-| `01-inject-debug.png` | flow inject → debug + вывод в панели Debug |
-| `01-node-version.png` | версия Node.js / Node-RED (логи контейнера) |
-| `02-function.png` | function-нода и её результат в debug |
-| `03-switch.png` | switch с двумя выходами и два debug |
-| `04-change.png` | change: msg до/после (topic, timestamp, payload) |
-| `05-template.png` | результат Mustache-шаблона (заполненный JSON) |
-| `06-http-request.png` | ответ публичного API в debug |
-| `07-mqtt.png` | обе ветки MQTT + входящие сообщения в debug |
-| `08-api-text.png` | браузер: `/api/text` |
-| `08-api-info.png` | браузер: `/api/info` |
-| `08-api-items-200.png` | браузер: `/api/items?id=1` |
-| `08-api-items-400.png` | браузер: `/api/items?id=abc` (или без параметра) |
-| `08-api-items-404.png` | браузер: `/api/items?id=99` |
-| `09-dashboard.png` | дашборд на `/ui`: gauge + график |
-| `10-telegram.png` | чат с ботом `tvl_lab2_korol_bot`: /start, /info, echo |
-| `11-files-write.png` | запись файла + содержимое на диске |
-| `11-files-read.png` | чтение файла после перезапуска Node-RED |
-| `12-context.png` | счётчик в flow context и его чтение после Deploy |
+### 2.1 Inject → Debug
+![2.1 inject → debug](../screenshots/01-inject-debug.png)
 
----
+### Версии Node-RED / Node.js
+![версии](../screenshots/01-node-version.png)
+
+### 2.2 Function node
+![2.2 function](../screenshots/02-function.png)
+
+### 2.3 Switch node
+![2.3 switch](../screenshots/03-switch.png)
+
+### 2.4 Change / Set node
+![2.4 change](../screenshots/04-change.png)
+
+### 2.5 Template node
+![2.5 template](../screenshots/05-template.png)
+
+### 2.6 HTTP Request node
+![2.6 http request](../screenshots/06-http-request.png)
+
+### 2.7 MQTT
+![2.7 mqtt](../screenshots/07-mqtt.png)
+
+### 2.8 GET-эндпоинты
+
+`/api/text`:
+
+![2.8 api text](../screenshots/08-api-text.png)
+
+`/api/info`:
+
+![2.8 api info](../screenshots/08-api-info.png)
+
+`/api/items?id=1` (200):
+
+![2.8 items 200](../screenshots/08-api-items-200.png)
+
+`/api/items?id=abc` (400):
+
+![2.8 items 400](../screenshots/08-api-items-400.png)
+
+`/api/items?id=99` (404):
+
+![2.8 items 404](../screenshots/08-api-items-404.png)
+
+### 2.9 Dashboard
+![2.9 dashboard](../screenshots/09-dashboard.png)
+
+### 2.10 Telegram-бот
+![2.10 telegram](../screenshots/10-telegram.png)
+
+### 2.11 Файлы (запись)
+![2.11 files write](../screenshots/11-files-write.png)
+
+### 2.12 Контекст
+![2.12 context](../screenshots/12-context.png)
+
+### Ачивка 16 — subflow (use 1)
+![ачивка 16 use 1](../screenshots/16-subflow-use1.png)
+
+### Ачивка 16 — subflow (use 2)
+![ачивка 16 use 2](../screenshots/16-subflow-use2.png)
 
 ## 6. Выводы (своими словами)
 
