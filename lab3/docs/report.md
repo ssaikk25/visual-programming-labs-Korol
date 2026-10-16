@@ -13,8 +13,11 @@
 - **Часть 1** — каркас сгенерирован AI-агентом Bubble по промпту (см. раздел 2);
 - **Часть 2** — изучен Build Guide про Header/Footer и применена идея
   «динамический футер из базы» (см. раздел 8);
-- **Часть 3** — UI доработан вручную (заголовок, Global variable, стиль, компонент);
-- **Часть 4** — Data Type «Контакт» и полный CRUD через workflows.
+- **Часть 3** — UI доработан вручную: имя «Artem» в заголовке, Global variable `primary-color`
+  (Color) для цвета заголовка, кастомный стиль `primary-button`, готовый компонент
+  «Section with cards» из COMPONENTS;
+- **Часть 4** — новый Data Type `Meeting` («Встреча») и полный CRUD через workflows
+  (Create / Read / Update / Delete) на отдельной странице meetings.
 
 ---
 
@@ -45,10 +48,10 @@ _<!-- ВПИСАТЬ: dev-ссылку. В Bubble: Settings → General → "Sha
 
 ### 4.2 Промпт для сущности в Части 4.1
 ```
-Придумай сущность для приложения «База контактов».
-Название сущности — Contact (Контакт).
-Добавь минимум 3 поля разных типов: имя (текст), телефон (текст),
-дата рождения (дата), избранный (да/нет), email (текст).
+Придумай сущность для приложения «База контактов» — встречи с контактами.
+Название сущности — Meeting (Встреча).
+Добавь минимум 3 поля разных типов: заголовок (текст), дата встречи (дата),
+статус выполнено (да/нет), ссылка на контакт (Contact), заметки (текст).
 ```
 
 ### 4.3 Промпты из исследования идеи (Часть 2)
@@ -63,8 +66,17 @@ Data → App data без правки дизайна. Эта идея приме
 
 ## 5. Какие элементы и workflows освоены
 
-_<!-- ВПИСАТЬ после выполнения: элементы (input, button, repeating group, popup, ...),
-workflows (Create, Read, Update, Delete), Global variables, styles -->_
+**Элементы (Design):** text, button, input, group, header/footer-зоны страницы,
+переиспользуемые элементы (reusable element), готовые компоненты из COMPONENTS.
+
+**Данные и стилизация:** Global variables (тип Color), styles (кастомный стиль,
+ссылающийся на Global variable).
+
+**Workflows (Часть 4, полный CRUD для `Meeting`):**
+- `wf-create-meeting` — Create a new thing (`Meeting`) из полей формы, затем сброс формы и закрытие;
+- `wf-read-meetings` — список встреч (Repeating Group), сортировка по дате, сообщение при пустом списке;
+- `wf-update-meeting` — Make changes to a thing (редактирование выбранной встречи через ту же форму);
+- `wf-delete-meeting` — Delete thing после подтверждения в popup.
 
 ---
 
@@ -78,11 +90,9 @@ workflows (Create, Read, Update, Delete), Global variables, styles -->_
 | 3 | `screenshots/03-global-variable.png` | Global variable (Color) + применение |
 | 4 | `screenshots/04-style.png` | новый стиль с использованием переменной |
 | 5 | `screenshots/05-component.png` | готовый компонент на странице |
-| 6 | `screenshots/06-data-type.png` | Data Type «Контакт» и его поля |
-| 7 | `screenshots/07-data-records.png` | записи в App Data |
-| 8 | `screenshots/08-workflow-create.png` | workflow Create |
-| 9 | `screenshots/09-workflow-update.png` | workflow Update |
-| 10 | `screenshots/10-workflow-delete.png` | workflow Delete |
+| 6 | `screenshots/06-data-type.png` | Data Type `Meeting` и его поля |
+| 7 | `screenshots/07-data-records.png` | записи `Meeting` в App Data (3 шт.) |
+| 8 | `screenshots/08-workflow.png` | CRUD-workflows страницы meetings (Create/Read/Update/Delete) |
 
 ---
 
@@ -129,6 +139,89 @@ Header и Footer приложения.
 **После** (текст берётся из data type `FooterContent`):
 
 ![футер после](../screenshots/02-after.png)
+
+## 9. Ручная доработка UI (Часть 3)
+
+Все изменения внесены вручную в Design-редакторе, без использования AI.
+
+### 3.1 Изменение текста заголовка
+
+В заголовок страницы после строки «ТВП: Korol» добавлено имя студента — **Artem**.
+Итоговый заголовок: «ТВП: Korol — Artem».
+
+### 3.2 Global variable для цвета
+
+В разделе Global → Variables создана переменная типа **Color** с именем
+`primary-color` (синий, `#2B7FFF`). Она применена к **цвету текста заголовка
+«Контакты»** — теперь цвет задаётся одной переменной, а не HEX-значением.
+
+![Global variable](../screenshots/03-global-variable.png)
+
+### 3.3 Новый стиль на основе переменной
+
+Создан кастомный стиль `primary-button`, который в качестве цвета использует
+Global variable `primary-color`. Стиль применён к кнопке «Добавить контакт» —
+это демонстрирует связку «стиль → переменная → единый источник цвета».
+
+![Стиль](../screenshots/04-style.png)
+
+### 3.4 Готовый компонент
+
+Из панели COMPONENTS (Drag & drop UI components) выбран готовый компонент
+«Section with cards» (раздел с карточками), которого изначально не было на
+странице. Он перетащен в приложение и настроен под тему: заголовок раздела,
+три карточки-заготовки под контакты и кнопка «Добавить контакт» (со стилем
+`primary-button`).
+
+![Компонент](../screenshots/05-component.png)
+## 10. Data и Workflows — сущность Meeting (Часть 4)
+
+### 4.1 Data Type «Meeting»
+
+Название и поля новой сущности сгенерированы промптом (см. раздел 4.2).
+
+Создан Data Type **Meeting** («Встреча») со следующими полями (5 полей, 4 разных типа):
+
+| Поле | Тип | Назначение |
+|---|---|---|
+| `title` | text | заголовок встречи |
+| `meeting_date` | date | дата встречи |
+| `is_done` | yes/no | статус «выполнено» |
+| `contact` | Contact | ссылка на контакт |
+| `notes` | text | заметки |
+
+В App Data добавлено **3 записи**: «Созвон по проекту», «Обед с клиентом»,
+«Подписание договора».
+
+![Data Type Meeting](../screenshots/06-data-type.png)
+
+![Записи Meeting](../screenshots/07-data-records.png)
+
+### 4.2 Полный CRUD для Meeting
+
+UI создан с использованием AI, CRUD-логика реализована отдельными workflow на
+странице **meetings**. Каждое действие — свой workflow.
+
+#### Create — `wf-create-meeting`
+Форма с полями встречи и кнопкой добавления. Workflow создаёт новую запись
+`Meeting` (Create a new thing) из значений формы, затем очищает поля и закрывает
+форму.
+
+
+#### Read — `wf-read-meetings`
+Список всех встреч (Repeating Group), отсортированный по дате. В строке показаны
+название, дата, контакт, статус и заметки. Если встреч нет — выводится сообщение
+о пустом списке.
+
+#### Update — `wf-update-meeting`
+Кнопка редактирования в строке открывает ту же форму с заполненными данными.
+Кнопка сохранения выполняет Make changes to a thing для выбранной встречи.
+
+
+#### Delete — `wf-delete-meeting`
+Кнопка удаления открывает окно «Удалить встречу?». После подтверждения выполняется
+Delete thing, при отмене окно просто закрывается.
+
 
 ## 7. Выводы своими словами
 
