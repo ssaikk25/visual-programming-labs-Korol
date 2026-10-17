@@ -1,0 +1,94 @@
+{
+  "name": "Lab4 Korol II-241 - 2.1 Manual Trigger -> Set -> Code",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "b47a1914-c679-49aa-a1d8-236021764da9",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -140,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ba04a02f-dcec-4537-9ffe-1c4a07610e54",
+              "name": "payload",
+              "value": "Korol Artem II-241",
+              "type": "string"
+            },
+            {
+              "id": "97543095-c938-4211-b481-d2fe9469cf01",
+              "name": "topic",
+              "value": "lab4/Korol/basic",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bc6ea037-5004-4076-9dfc-36c7f9b46179",
+      "name": "Set: payload + topic",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        80,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "for (const item of $input.all()) {\n  console.log('payload =', item.json.payload);\n  console.log('topic   =', item.json.topic);\n}\n\nreturn $input.all();\n"
+      },
+      "id": "950db5be-ef28-4f08-b498-4e55565add3f",
+      "name": "Code: print payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        300,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set: payload + topic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set: payload + topic": {
+      "main": [
+        [
+          {
+            "node": "Code: print payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}

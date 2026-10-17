@@ -1,0 +1,61 @@
+{
+  "name": "Lab4 Korol II-241 - 2.6 Schedule Trigger",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 5
+            }
+          ]
+        }
+      },
+      "id": "b6da387e-ac67-44ba-88a3-66b6b76b1ca6",
+      "name": "Schedule Trigger: every 5 min",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -140,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Вернуть текущее время\nreturn [\n  {\n    json: {\n      payload: 'Korol Artem II-241',\n      topic: 'lab4/Korol/schedule',\n      now: new Date().toISOString(),\n      iso: $now.toISO(),\n    },\n  },\n];\n"
+      },
+      "id": "8b8c2d66-c9ea-486d-b055-c5cea90b779b",
+      "name": "Code: current time",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        120,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger: every 5 min": {
+      "main": [
+        [
+          {
+            "node": "Code: current time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}

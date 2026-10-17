@@ -1,0 +1,100 @@
+{
+  "name": "Lab4 Korol II-241 - 2.4 Set node",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "60e40581-97c2-4985-8c56-d0dcf316b137",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -140,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c48842c7-c226-47ae-b811-df0bc02dcd8f",
+              "name": "payload",
+              "value": "Korol Artem II-241",
+              "type": "string"
+            },
+            {
+              "id": "c7ebc91a-0287-4be8-bdf8-4235f03093d4",
+              "name": "topic",
+              "value": "lab4/Korol/set",
+              "type": "string"
+            },
+            {
+              "id": "4cb1f2f9-6afe-46a2-b263-852055fcf744",
+              "name": "timestamp",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7500116c-7320-4b9e-9fee-2364bec54bb5",
+      "name": "Set: topic + timestamp + payload",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        80,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Показать complete msg object, пришедший из Set\nfor (const item of $input.all()) {\n  console.log('complete msg:', JSON.stringify(item.json, null, 2));\n}\n\nreturn $input.all();\n"
+      },
+      "id": "c503eaa6-c775-4e4d-93b5-c44daa8c286b",
+      "name": "Code: show complete msg",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set: topic + timestamp + payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set: topic + timestamp + payload": {
+      "main": [
+        [
+          {
+            "node": "Code: show complete msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}

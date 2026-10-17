@@ -1,0 +1,74 @@
+{
+  "name": "Lab4 Korol II-241 - 2.2 Code node",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "9c6468ae-15b1-40dd-ad1b-0ce469ea66b6",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -140,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Базовые элементы JS: const/let, массив, объект, цикл for, if/else\nconst student = 'Korol Artem II-241';\nlet counter = 0;\n\nconst topics = ['lab4/Korol/basic', 'lab4/Korol/code', 'lab4/Korol/if'];\nconst meta = { lab: 4, group: 'II-241', student: 'Korol' };\n\nfor (let i = 0; i < topics.length; i++) {\n  counter++;\n}\n\nlet verdict;\nif (counter === topics.length && meta.lab === 4) {\n  verdict = 'all checks passed';\n} else {\n  verdict = 'something is wrong';\n}\n\nreturn [\n  {\n    json: {\n      payload: student,\n      topic: topics[0],\n      counter,\n      meta,\n      verdict,\n    },\n  },\n];\n"
+      },
+      "id": "793c1823-42cd-4c7b-811f-c741a0dd64cf",
+      "name": "Code: JS basics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        0
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "7f7ede25-8c59-45e6-a447-f13b4df3f976",
+      "name": "No Operation",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        300,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code: JS basics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code: JS basics": {
+      "main": [
+        [
+          {
+            "node": "No Operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}

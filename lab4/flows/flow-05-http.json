@@ -1,0 +1,83 @@
+{
+  "name": "Lab4 Korol II-241 - 2.5 HTTP Request node",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "91f6667d-067d-462d-8466-519f974fed68",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -140,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.chucknorris.io/jokes/random",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "b98189cd-eb45-42e3-8553-6ee5aa6774b6",
+      "name": "HTTP Request: chucknorris joke",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        80,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Разобрать ответ публичного API и привести к виду payload\nreturn $input.all().map((item) => ({\n  json: {\n    payload: item.json.value,\n    source: 'https://api.chucknorris.io/jokes/random',\n    topic: 'lab4/Korol/http',\n  },\n}));\n"
+      },
+      "id": "a7f4b12d-a33c-4678-8e80-b9f86f2b6299",
+      "name": "Code: map joke to payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request: chucknorris joke",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request: chucknorris joke": {
+      "main": [
+        [
+          {
+            "node": "Code: map joke to payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}
