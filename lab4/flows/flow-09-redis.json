@@ -1,0 +1,97 @@
+{
+  "name": "Lab4 Korol II-241 - 3.1 Redis Set -> Get",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "8f1c2d10-4a11-4c9e-9b21-0f1a2b3c4d01",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "korol",
+        "value": "Korol Artem II-241 | lab4 redis value",
+        "keyType": "string",
+        "valueIsJSON": false,
+        "expire": false,
+        "ttl": -1
+      },
+      "id": "8f1c2d10-4a11-4c9e-9b21-0f1a2b3c4d02",
+      "name": "Redis: Set korol",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        60,
+        0
+      ],
+      "credentials": {
+        "redis": {
+          "id": "ztNKAHbffj5NpXLl",
+          "name": "Redis lab4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "value",
+        "key": "korol",
+        "keyType": "string",
+        "options": {}
+      },
+      "id": "8f1c2d10-4a11-4c9e-9b21-0f1a2b3c4d03",
+      "name": "Redis: Get korol",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        280,
+        0
+      ],
+      "credentials": {
+        "redis": {
+          "id": "ztNKAHbffj5NpXLl",
+          "name": "Redis lab4"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Redis: Set korol",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis: Set korol": {
+      "main": [
+        [
+          {
+            "node": "Redis: Get korol",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}

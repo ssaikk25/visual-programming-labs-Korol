@@ -1,0 +1,117 @@
+{
+  "name": "Lab4 Korol II-241 - 3.2 Redis Delete -> Exists check",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "9a2d3e20-5b22-4daf-8c32-1a2b3c4d5e01",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "korol"
+      },
+      "id": "9a2d3e20-5b22-4daf-8c32-1a2b3c4d5e02",
+      "name": "Redis: Delete korol",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        60,
+        0
+      ],
+      "credentials": {
+        "redis": {
+          "id": "ztNKAHbffj5NpXLl",
+          "name": "Redis lab4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "value",
+        "key": "korol",
+        "keyType": "string",
+        "options": {}
+      },
+      "id": "9a2d3e20-5b22-4daf-8c32-1a2b3c4d5e03",
+      "name": "Redis: Get korol (exists check)",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        280,
+        0
+      ],
+      "credentials": {
+        "redis": {
+          "id": "ztNKAHbffj5NpXLl",
+          "name": "Redis lab4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Core-нода Redis в n8n не имеет операции Exists,\n// поэтому отсутствие ключа проверяем через GET: null => ключа нет.\nreturn $input.all().map((item) => {\n  const value = item.json.value ?? null;\n  return {\n    json: {\n      key: 'korol',\n      exists: value !== null,\n      value,\n    },\n  };\n});\n"
+      },
+      "id": "9a2d3e20-5b22-4daf-8c32-1a2b3c4d5e04",
+      "name": "Code: verify key absent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        500,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Redis: Delete korol",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis: Delete korol": {
+      "main": [
+        [
+          {
+            "node": "Redis: Get korol (exists check)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis: Get korol (exists check)": {
+      "main": [
+        [
+          {
+            "node": "Code: verify key absent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}
